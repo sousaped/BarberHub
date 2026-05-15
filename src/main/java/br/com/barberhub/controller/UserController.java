@@ -1,6 +1,9 @@
 package br.com.barberhub.controller;
 
+import br.com.barberhub.dto.ChangeMyPasswordDTO;
 import br.com.barberhub.dto.UserDTO;
+import br.com.barberhub.dto.UserResponseDTO;
+import br.com.barberhub.dto.UserUpdateDTO;
 import br.com.barberhub.entities.User;
 import br.com.barberhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +22,7 @@ import java.util.List;
 @RequestMapping("/v1/user")
 @RequiredArgsConstructor
 @Validated
-@Tag(name="User", description = "Controller para crud de Usuários")
+@Tag(name = "User", description = "Controller para crud de Usuários")
 public class UserController {
 
     private final UserService service;
@@ -30,19 +33,10 @@ public class UserController {
                     @ApiResponse(description = "OK", responseCode = "200")
             })
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @Operation(description = "Busca todos os usuários por nome",
-            summary = "Busca de usuários por nome",
-            responses = {
-                    @ApiResponse(description = "OK", responseCode = "200")
-            })
-    @GetMapping("/find")
-    public ResponseEntity<List<User>> findByName(@RequestParam String name) {
-        return ResponseEntity.ok(service.findByName(name));
-    }
 
     @Operation(description = "Criação usuários",
             summary = "Criação usuários",
@@ -50,10 +44,11 @@ public class UserController {
                     @ApiResponse(description = "CREATED", responseCode = "201")
             })
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO dto) {
-        User create = service.createUser(dto);
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserDTO dto) {
+        UserResponseDTO create = service.createUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
+
 
     @Operation(description = "Alteração usuários",
             summary = "Alteração usuários",
@@ -61,15 +56,26 @@ public class UserController {
                     @ApiResponse(description = "OK", responseCode = "200")
             })
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id,@Valid @RequestBody UserDTO dto) {
-        User update = service.updateUser(id,dto);
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
+        UserResponseDTO update = service.updateUser(id, dto);
         return ResponseEntity.ok(update);
     }
+
+    @Operation(description = "Trocar Senha",
+            summary = "Trocando a senha do Usuario")
+    @PatchMapping("/{id}/change-password")
+    public ResponseEntity<Void> resetPassword(@PathVariable Long id,@Valid @RequestBody ChangeMyPasswordDTO dto) {
+        this.service.changeMyPassword(id, dto);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @Operation(description = "Exclusão usuários",
             summary = "Exclusão usuários")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.service.deleteUser(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

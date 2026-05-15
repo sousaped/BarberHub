@@ -1,20 +1,17 @@
 package br.com.barberhub.dto;
 
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class UserDTO {
-    private String name;
-    private String email;
-    private String login;
-    private String password;
-    private LocalDateTime lastChangeDate;
-
-
+public record UserDTO(
+        @NotBlank
+        @Email
+        String email,
+        @NotBlank
+        String telephone,
+        @NotBlank(message = "Password is required")
+        String password
+) {
 }
