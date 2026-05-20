@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/v1/barber")
 @RequiredArgsConstructor
 @Validated
-@Tag(name="Barber", description = "Controller para serviços do Barbeiro")
+@Tag(name = "Barber", description = "Controller para Barbeiros")
 public class BarberController {
 
     private final BarberService service;
@@ -30,8 +30,8 @@ public class BarberController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping
-    public ResponseEntity<List<BarberResponseDTO>> ListBySpecialty(Specialty specialty) {
+    @GetMapping("/specialty/{specialty}")
+    public ResponseEntity<List<BarberResponseDTO>> listBySpecialty(Specialty specialty) {
         return ResponseEntity.ok(service.findBySpecialty(specialty));
     }
 
@@ -42,7 +42,7 @@ public class BarberController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<BarberResponseDTO> createBarber(@RequestBody @Valid BarberRequestDTO dados, UriComponentsBuilder uriBuilder ) {
+    public ResponseEntity<BarberResponseDTO> createBarber(@RequestBody @Valid BarberRequestDTO dados, UriComponentsBuilder uriBuilder) {
         var barber = service.createBarber(dados);
         var uri = uriBuilder.path("/{id}").buildAndExpand(barber.id()).toUri();
         return ResponseEntity.created(uri).body(barber);
@@ -50,7 +50,7 @@ public class BarberController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BarberResponseDTO> updateBarber(@RequestBody @Valid @PathVariable Long id, BarberUpdateDTO dados) {
-        var barber = service.updateBarber(id,dados);
+        var barber = service.updateBarber(id, dados);
         return ResponseEntity.ok(barber);
     }
 
@@ -59,9 +59,6 @@ public class BarberController {
         service.disableBarber(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
 
 
 }

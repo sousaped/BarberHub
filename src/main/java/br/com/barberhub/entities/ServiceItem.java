@@ -24,6 +24,11 @@ public class ServiceItem {
     private Specialty name;
     private BigDecimal price;
     private Integer durationInMinutes;
+    private Boolean active;
+
+    public void disable() {
+        this.active = false;
+    }
 
 
 }
