@@ -37,7 +37,7 @@ public class Barber {
     @OneToMany(mappedBy = "barber")
     private List<Appointment> appointments;
 
-    public void desativar() {
+    public void disable() {
         this.active = false;
     }
 

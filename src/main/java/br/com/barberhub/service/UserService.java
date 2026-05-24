@@ -72,11 +72,11 @@ public class UserService {
     }
 
 
-    public void deleteUser(Long id) {
+    public void disableUser(Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found!!"));
-
-        repository.delete(user);
+        user.disable();
+        repository.save(user);
 
     }
 }

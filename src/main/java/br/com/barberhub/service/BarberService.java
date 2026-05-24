@@ -85,7 +85,7 @@ public class BarberService {
     public void disableBarber(Long id) {
         Barber barber = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Barber not found!!"));
-        barber.desativar();
+        barber.disable();
         repository.save(barber);
     }
 

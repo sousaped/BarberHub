@@ -3,7 +3,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java" />
   <img src="https://img.shields.io/badge/Spring Boot-4.0.5-brightgreen?style=for-the-badge&logo=springboot" />
-  <img src="https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql" />
+  <img src="https://img.shields.io/badge/MySQL-8-blue?style=for-the-badge&logo=mysql" />
+  <img src="https://img.shields.io/badge/Docker-blue?style=for-the-badge&logo=docker" />
   <img src="https://img.shields.io/badge/Swagger-OpenAPI-green?style=for-the-badge&logo=swagger" />
   <img src="https://img.shields.io/badge/Maven-red?style=for-the-badge&logo=apachemaven" />
 </p>
@@ -156,8 +157,8 @@ User ──────────── Barber ──────────�
 | `GET` | `/v1/user` | Lista todos os usuários |
 | `POST` | `/v1/user` | Cria um novo usuário |
 | `PUT` | `/v1/user/{id}` | Atualiza dados do usuário |
-| `DELETE` | `/v1/user/{id}` | Remove um usuário |
 | `PATCH` | `/v1/user/{id}/change-password` | Altera a senha |
+| `PATCH` | `/v1/user/{id}/disable` | Desativa um usuário |
 
 ### 💈 Barbers — `/v1/barber`
 
@@ -168,7 +169,7 @@ User ──────────── Barber ──────────�
 | `GET` | `/v1/barber/specialty/{specialty}` | Busca por especialidade |
 | `POST` | `/v1/barber/create` | Cadastra um novo barbeiro |
 | `PUT` | `/v1/barber/{id}` | Atualiza dados do barbeiro |
-| `PATCH` | `/v1/barber/{id}/deactivate` | Desativa um barbeiro |
+| `PATCH` | `/v1/barber/{id}/disable` | Desativa um barbeiro |
 
 ### ✂️ Service Items — `/v1/serviceitem`
 
@@ -232,7 +233,8 @@ User ──────────── Barber ──────────�
 | Spring Boot | 4.0.5 | Framework principal |
 | Spring Data JPA | — | Persistência de dados |
 | Hibernate | 7.2.7 | ORM |
-| PostgreSQL | — | Banco de dados |
+| MySQL | 8 | Banco de dados |
+| Docker | — | Conteinerização |
 | Lombok | — | Redução de boilerplate |
 | SpringDoc OpenAPI (Swagger) | — | Documentação da API |
 | Maven | — | Gerenciamento de dependências |
@@ -242,24 +244,82 @@ User ──────────── Barber ──────────�
 
 ## ⚙️ Como Executar
 
-### Pré-requisitos
+### 🐳 Com Docker (recomendado)
 
+**Pré-requisitos**
+- Docker
+- Docker Compose
+
+**1. Crie o arquivo `.env` na raiz do projeto:**
+
+```env
+DB_HOST=db
+DB_NAME=barber_hub
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+MYSQL_ROOT_PASSWORD=sua_senha_root
+```
+
+**2. Crie o arquivo `docker-compose.yml` na raiz do projeto:**
+
+```yaml
+services:
+  db:
+    image: mysql:8
+    container_name: barberhub-db
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: alekey02/barberhub:1.0
+    container_name: barberhub-app
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+```
+
+**3. Suba os containers:**
+
+```bash
+docker-compose up
+```
+
+---
+
+### 💻 Sem Docker
+
+**Pré-requisitos**
 - Java 21+
 - Maven
-- PostgreSQL
+- MySQL 8
 
-### Configuração do banco de dados
+**Configuração do banco de dados**
 
 No arquivo `application.properties`, configure as credenciais:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/barberhub
+spring.datasource.url=jdbc:mysql://localhost/barber_hub?createDatabaseIfNotExist=true
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-### Executando a aplicação
+**Executando a aplicação**
 
 ```bash
 # Clone o repositório
@@ -271,6 +331,8 @@ cd BarberHub
 # Execute com Maven
 ./mvnw spring-boot:run
 ```
+
+---
 
 A API estará disponível em `http://localhost:8080`
 
@@ -286,12 +348,23 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
+## 🐳 Docker Hub
+
+A imagem da aplicação está disponível no Docker Hub:
+
+```bash
+docker pull alekey02/barberhub:1.0
+```
+
+🔗 [alekey02/barberhub](https://hub.docker.com/r/alekey02/barberhub)
+
+---
+
 ## 📌 Próximos Passos
 
 - [ ] Implementação do Spring Security com JWT
 - [ ] Controle de acesso por roles (CLIENT, BARBER, ADMIN)
 - [ ] Testes unitários e de integração
-- [ ] Dockerização da aplicação
 
 ---
 

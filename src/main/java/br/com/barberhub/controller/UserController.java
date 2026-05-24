@@ -4,7 +4,6 @@ import br.com.barberhub.dto.ChangeMyPasswordDTO;
 import br.com.barberhub.dto.UserDTO;
 import br.com.barberhub.dto.UserResponseDTO;
 import br.com.barberhub.dto.UserUpdateDTO;
-import br.com.barberhub.entities.User;
 import br.com.barberhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,13 +21,13 @@ import java.util.List;
 @RequestMapping("/v1/user")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "User", description = "Controller para crud de Usuários")
+@Tag(name = "User", description = "Controller for C.R.U.D of Users")
 public class UserController {
 
     private final UserService service;
 
-    @Operation(description = "Busca todos os usuários",
-            summary = "Busca de usuários",
+    @Operation(description = "Returns a list of all registered users",
+            summary = "List all users",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200")
             })
@@ -38,10 +37,11 @@ public class UserController {
     }
 
 
-    @Operation(description = "Criação usuários",
-            summary = "Criação usuários",
+    @Operation(description = "Creates a new user",
+            summary = "Create user",
             responses = {
-                    @ApiResponse(description = "CREATED", responseCode = "201")
+                    @ApiResponse(description = "Created", responseCode = "201"),
+                    @ApiResponse(description = "Bad Request", responseCode = "400")
             })
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserDTO dto) {
@@ -50,10 +50,11 @@ public class UserController {
     }
 
 
-    @Operation(description = "Alteração usuários",
-            summary = "Alteração usuários",
+    @Operation(description = "Updates email and telephone of a user",
+            summary = "Update user",
             responses = {
-                    @ApiResponse(description = "OK", responseCode = "200")
+                    @ApiResponse(description = "OK", responseCode = "200"),
+                    @ApiResponse(description = "Not Found", responseCode = "404")
             })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
@@ -61,21 +62,27 @@ public class UserController {
         return ResponseEntity.ok(update);
     }
 
-    @Operation(description = "Trocar Senha",
-            summary = "Trocando a senha do Usuario")
+    @Operation(description = "Changes the password of a user",
+            summary = "Change password",
+            responses = {
+                    @ApiResponse(description = "No Content", responseCode = "204"),
+                    @ApiResponse(description = "Not Found", responseCode = "404")
+            })
     @PatchMapping("/{id}/change-password")
-    public ResponseEntity<Void> resetPassword(@PathVariable Long id,@Valid @RequestBody ChangeMyPasswordDTO dto) {
+    public ResponseEntity<Void> resetPassword(@PathVariable Long id, @Valid @RequestBody ChangeMyPasswordDTO dto) {
         this.service.changeMyPassword(id, dto);
         return ResponseEntity.noContent().build();
     }
 
-
-    @Operation(description = "Exclusão usuários",
-            summary = "Exclusão usuários")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        this.service.deleteUser(id);
-
+    @Operation(description = "Disables a user by ID",
+            summary = "Disable user",
+            responses = {
+                    @ApiResponse(description = "No Content", responseCode = "204"),
+                    @ApiResponse(description = "Not Found", responseCode = "404")
+            })
+    @PatchMapping("/{id}/disable")
+    public ResponseEntity<Void> disable(@PathVariable Long id) {
+        service.disableUser(id);
         return ResponseEntity.noContent().build();
     }
 }

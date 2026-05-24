@@ -44,12 +44,18 @@ public class User {
     @JoinColumn(name = "barber_id")
     private Barber barber;
 
+    private Boolean active;
+
 
     public User(UserDTO dto) {
         this.name = dto.name();
         this.email = dto.email();
         this.telephone = dto.telephone();
         this.password = dto.password();
+    }
+
+    public void disable() {
+        this.active = false;
     }
 
 
