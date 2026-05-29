@@ -22,7 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Column(unique = true)
@@ -38,13 +38,15 @@ public class User {
     private LocalDateTime lastChangeDate;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(nullable = false)
+    private Role role = Role.CLIENT;
 
-    @OneToOne
-    @JoinColumn(name = "barber_id")
+
+    @OneToOne(mappedBy = "user")
     private Barber barber;
 
-    private Boolean active;
+    @Column(nullable = false)
+    private Boolean active = true;
 
 
     public User(UserDTO dto) {
@@ -53,6 +55,7 @@ public class User {
         this.telephone = dto.telephone();
         this.password = dto.password();
     }
+
 
     public void disable() {
         this.active = false;

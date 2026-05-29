@@ -1,9 +1,9 @@
 package br.com.barberhub.dto;
 
+import br.com.barberhub.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
 
 public record UserDTO(
         @NotBlank
@@ -15,5 +15,6 @@ public record UserDTO(
         String telephone,
         @NotBlank(message = "Password is required")
         String password
+
 ) {
 }

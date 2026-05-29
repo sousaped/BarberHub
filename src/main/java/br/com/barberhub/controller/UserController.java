@@ -1,9 +1,6 @@
 package br.com.barberhub.controller;
 
-import br.com.barberhub.dto.ChangeMyPasswordDTO;
-import br.com.barberhub.dto.UserDTO;
-import br.com.barberhub.dto.UserResponseDTO;
-import br.com.barberhub.dto.UserUpdateDTO;
+import br.com.barberhub.dto.*;
 import br.com.barberhub.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -85,4 +82,23 @@ public class UserController {
         service.disableUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(
+            description = "Assigns a role to a user by ID",
+            summary = "Assign role to user",
+            responses = {
+                    @ApiResponse(description = "No Content", responseCode = "204"),
+                    @ApiResponse(description = "Bad Request", responseCode = "400"),
+                    @ApiResponse(description = "Not Found", responseCode = "404")
+            })
+    @PatchMapping("{id}/assign-role")
+    public ResponseEntity<Void> assignRole(@PathVariable Long id, @Valid @RequestBody
+    AssignRoleDTO dto) {
+        this.service.assignRole(id, dto.role());
+
+        return ResponseEntity.noContent().build();
+
+    }
+
+
 }

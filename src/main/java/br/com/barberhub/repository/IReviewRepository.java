@@ -9,6 +9,4 @@ public interface IReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByBarberId(Long barberId);
 
-    List<Review> findAllRattingByBarberId(Long barberId);
-
 }

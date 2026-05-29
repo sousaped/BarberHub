@@ -1,7 +1,5 @@
 package br.com.barberhub.entities;
 
-import br.com.barberhub.dto.ReviewDTO;
-import br.com.barberhub.dto.ReviewResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,10 +33,4 @@ public class Review {
     private Barber barber;
 
 
-    public Review(ReviewResponseDTO dto) {
-        this.id = dto.id();
-        this.rating = dto.ratting();
-        this.comment = dto.comment();
-        this.reviewDate = dto.reviewDate();
-    }
 }

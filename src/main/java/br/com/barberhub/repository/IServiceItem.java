@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface IServiceItem extends JpaRepository<ServiceItem,Long> {
-
-    Optional<ServiceItem> findById(Long id);
+public interface IServiceItem extends JpaRepository<ServiceItem, Long> {
 
 
     Optional<ServiceItem> findByName(Specialty name);

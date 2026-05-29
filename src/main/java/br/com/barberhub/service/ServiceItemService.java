@@ -7,12 +7,14 @@ import br.com.barberhub.entities.ServiceItem;
 import br.com.barberhub.exceptions.BadRequestException;
 import br.com.barberhub.exceptions.NotFoundException;
 import br.com.barberhub.repository.IServiceItem;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ServiceItemService {
 

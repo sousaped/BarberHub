@@ -12,6 +12,7 @@ import br.com.barberhub.repository.IAppointmentRepository;
 import br.com.barberhub.repository.IBarberRepository;
 import br.com.barberhub.repository.IReviewRepository;
 import br.com.barberhub.repository.IUserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ReviewService {
 
@@ -53,7 +55,7 @@ public class ReviewService {
         Review review = new Review();
         review.setBarber(barber);
         review.setUser(user);
-        review.setRating(dto.ratting());
+        review.setRating(dto.rating());
         review.setComment(dto.comment());
         review.setReviewDate(LocalDateTime.now());
 

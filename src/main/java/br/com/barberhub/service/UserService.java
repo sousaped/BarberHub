@@ -5,15 +5,19 @@ import br.com.barberhub.dto.UserDTO;
 import br.com.barberhub.dto.UserResponseDTO;
 import br.com.barberhub.dto.UserUpdateDTO;
 import br.com.barberhub.entities.User;
+import br.com.barberhub.enums.Role;
 import br.com.barberhub.exceptions.BadRequestException;
 import br.com.barberhub.exceptions.NotFoundException;
 import br.com.barberhub.repository.IUserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
 
@@ -28,12 +32,23 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserDTO dto) throws BadRequestException {
-        User saved = repository.save(new User(dto));
+        User user = new User();
         if (repository.findByEmail(dto.email()).isPresent()) {
             throw new BadRequestException("This user already exists with this email address");
         }
-        return new UserResponseDTO(saved);
 
+        user.setActive(true);
+        user.setRole(Role.CLIENT);
+        return new UserResponseDTO(repository.save(new User(dto)));
+
+    }
+
+    public void assignRole(Long id,Role role){
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found!!"));
+
+        user.setRole(role);
+        this.repository.save(user);
     }
 
     public UserResponseDTO updateUser(Long id, UserUpdateDTO dto) {
@@ -42,31 +57,35 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found!!"));
 
         repository.findByEmail(dto.email())
-                        .ifPresent(existing -> {
-                            if(!existing.getId().equals(id)) {
-                                throw new BadRequestException("Email already in use");
-                            }
-                        });
+                .ifPresent(existing -> {
+                    if (!existing.getId().equals(id)) {
+                        throw new BadRequestException("Email already in use");
+                    }
+                });
 
         user.setEmail(dto.email());
         user.setTelephone(dto.telephone());
+        user.setLastChangeDate(LocalDateTime.now());
 
 
         return new UserResponseDTO(repository.save(user));
     }
 
-    public void changeMyPassword(Long id,ChangeMyPasswordDTO dto) {
+    public void changeMyPassword(Long id, ChangeMyPasswordDTO dto) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found!!"));
 
-        if(!dto.currentPassword().equals(user.getPassword())) {
+        if (!dto.currentPassword().equals(user.getPassword())) {
             throw new BadRequestException("Current password is incorrect");
         }
 
         if (!dto.newPassword().equals(dto.confirmNewPassword())) {
             throw new BadRequestException("Passwords don't match");
         }
+
+
         user.setPassword(dto.newPassword());
+        user.setLastChangeDate(LocalDateTime.now());
         repository.save(user);
 
     }

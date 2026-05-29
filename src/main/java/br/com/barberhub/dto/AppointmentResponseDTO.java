@@ -10,19 +10,20 @@ public record AppointmentResponseDTO(
         Long id,
         LocalDate availableDate,
         LocalTime availableTime,
-        AppointmentStatus status
-
+        AppointmentStatus status,
+        String barberName,
+        String userName,
+        String serviceItemName
 ) {
-
     public AppointmentResponseDTO(Appointment appointment) {
         this(
                 appointment.getId(),
                 appointment.getAvailableDate(),
                 appointment.getAvailableTime(),
-                appointment.getStatus()
-
+                appointment.getStatus(),
+                appointment.getBarber().getName(),
+                appointment.getUser().getName(),
+                appointment.getServiceItem().getName().name()
         );
     }
-
-
 }

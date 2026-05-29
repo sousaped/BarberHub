@@ -1,6 +1,5 @@
 package br.com.barberhub.dto;
 
-import br.com.barberhub.entities.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

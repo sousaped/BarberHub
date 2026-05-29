@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public record ReviewResponseDTO(
 
         Long id,
-        Double ratting,
+        Double rating,
         String comment,
         LocalDateTime reviewDate
 

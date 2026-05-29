@@ -34,9 +34,9 @@ public class Appointment {
     @JoinColumn(name = "barber_id")
     private Barber barber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_item_id")
-    private ServiceItem  serviceItem;
+    private ServiceItem serviceItem;
 
     public void cancel() {
         this.status = AppointmentStatus.CANCELLED;

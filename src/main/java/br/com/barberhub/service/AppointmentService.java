@@ -13,12 +13,14 @@ import br.com.barberhub.repository.IAppointmentRepository;
 import br.com.barberhub.repository.IBarberRepository;
 import br.com.barberhub.repository.IServiceItem;
 import br.com.barberhub.repository.IUserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AppointmentService {
 

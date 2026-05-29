@@ -63,16 +63,14 @@ public class BarberService {
 
         if (dto.specialty() != null) {
             barber.setSpecialty(dto.specialty());
-            barber.setActive(dto.active());
+
         }
 
         if (dto.active() != null) {
             barber.setActive(dto.active());
         }
 
-        Barber updated = repository.save(barber);
-
-        return new BarberResponseDTO(updated);
+        return new BarberResponseDTO(repository.save(barber));
     }
 
     public List<BarberResponseDTO> findBySpecialty(Specialty specialty) {
