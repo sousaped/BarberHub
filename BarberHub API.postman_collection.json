@@ -1,0 +1,640 @@
+{
+  "info": {
+    "_postman_id": "3226f7e0-0072-4192-bce1-e5d220da8f91",
+    "name": "BarberHub API",
+    "description": "Collection para teste da API BarberHub",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30378092"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "List all users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "  {\n    \"name\": \"Mike de Sousa Pedroso\",\n    \"email\": \"mike.sousa96@hotmail.com\",\n    \"telephone\": \"(11)996852-1020\",\n    \"password\": \"Lost73915500@\"\n  }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"helo.moraes365@gmail.com\",\n  \"telephone\": \"(11)94002-8922\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/user/5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Us3r\",\n  \"newPassword\": \"heloJB365@\",\n  \"confirmNewPassword\": \"heloJB365@\"\n\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/user/5/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "5",
+                "change-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disable user",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/user/8/disable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "8",
+                "disable"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign role",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"BARBER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/user/8/assign-role",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "user",
+                "8",
+                "assign-role"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Barber",
+      "item": [
+        {
+          "name": "List all barbers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find barber by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber/5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find barbers by specialty",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber/specialty/HAIRCUT",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber",
+                "specialty",
+                "HAIRCUT"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create barber",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"specialty\": [\"HAIRCUT\", \"BEARD_TRIM\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update barber",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specialty\": [\"EYEBROW_DESIGN\",\"HAIR_REMOVAL\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disable barber",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/barber/9/disable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "barber",
+                "9",
+                "disable"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service Item",
+      "item": [
+        {
+          "name": "List all service items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/serviceitem",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "serviceitem"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find service item by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/serviceitem/6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "serviceitem",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create service item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"HAIR_REMOVAL\",\n  \"price\": 17.00,\n  \"durationInMinutes\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/serviceitem/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "serviceitem",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update service item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 60.00,\n  \"durationInMinutes\": 45\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/serviceitem/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "serviceitem",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disable service item",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/serviceitem/1/disable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "serviceitem",
+                "1",
+                "disable"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointment",
+      "item": [
+        {
+          "name": "List all appointments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find appointments by barber",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment/barber/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment",
+                "barber",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find appointments by user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment/user/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment",
+                "user",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"barberId\": 1,\n  \"serviceItemId\": 1,\n  \"availableDate\": \"2026-06-01\",\n  \"availableTime\": \"09:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel appointment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment/1/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment",
+                "1",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Complete appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/appointment/1/complete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "appointment",
+                "1",
+                "complete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "Find reviews by barber",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/review/barber/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "review",
+                "barber",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"barberId\": 1,\n  \"rating\": 5.0,\n  \"comment\": \"Excelente atendimento!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/review/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "review",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete review",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/review/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "review",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find all reviews",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
