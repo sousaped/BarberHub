@@ -323,7 +323,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ```bash
 # Clone o repositório
-git clone https://github.com/Alekey2/BarberHub.git
+git clone https://github.com/sousaped/BarberHub.git
 
 # Entre na pasta do projeto
 cd BarberHub
@@ -353,7 +353,7 @@ http://localhost:8080/swagger-ui.html
 A imagem da aplicação está disponível no Docker Hub:
 
 ```bash
-docker pull alekey02/barberhub:1.0
+docker pull alekey02/barberhub:1.1
 ```
 
 🔗 [alekey02/barberhub](https://hub.docker.com/r/alekey02/barberhub)
