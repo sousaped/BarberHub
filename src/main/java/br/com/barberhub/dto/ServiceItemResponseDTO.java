@@ -14,7 +14,7 @@ public record ServiceItemResponseDTO(
 
 ) {
 
-    public ServiceItemResponseDTO (ServiceItem serviceItem){
+    public ServiceItemResponseDTO(ServiceItem serviceItem) {
         this(
                 serviceItem.getId(),
                 serviceItem.getName(),

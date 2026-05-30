@@ -17,9 +17,9 @@ public interface IAppointmentRepository extends JpaRepository<Appointment, Long>
 
     List<Appointment> findByBarberId(Long barberId);
 
-    // verifica se barbeiro está ocupado
     Optional<Appointment> findByBarberIdAndAvailableDateAndAvailableTime(Long barberId, LocalDate availableDate, LocalTime availableTime);
 
-    // verifica se cliente está ocupado
     Optional<Appointment> findByUserIdAndAvailableDateAndAvailableTime(Long userId, LocalDate availableDate, LocalTime availableTime);
+
+    List<Appointment> findByBarberIdAndAvailableDateAndStatus(Long barberId, LocalDate availableDate, AppointmentStatus status);
 }

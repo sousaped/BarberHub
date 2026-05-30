@@ -11,7 +11,9 @@ import br.com.barberhub.exceptions.NotFoundException;
 import br.com.barberhub.repository.IBarberRepository;
 import br.com.barberhub.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class BarberService {
         Barber barber = new Barber();
 
         barber.setUser(user);
-        barber.setName(dto.name());
+        barber.setName(user.getName());
         barber.setSpecialty(dto.specialty());
         barber.setActive(true);
         barber.setRating(0.0);
@@ -56,24 +58,26 @@ public class BarberService {
         return new BarberResponseDTO(repository.save(barber));
     }
 
-    public BarberResponseDTO updateBarber(Long id, BarberUpdateDTO dto) {
+    public BarberResponseDTO updateBarber(Long id, BarberUpdateDTO dto) throws HttpMessageNotReadableException {
 
         Barber barber = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Barber not found!!"));
 
         if (dto.specialty() != null) {
-            barber.setSpecialty(dto.specialty());
-
+            List<Specialty> current = barber.getSpecialty();
+            dto.specialty().forEach(specialty -> {
+                if (!current.contains(specialty)) {
+                    current.add(specialty);
+                }
+            });
+            barber.setSpecialty(current);
         }
 
-        if (dto.active() != null) {
-            barber.setActive(dto.active());
-        }
 
         return new BarberResponseDTO(repository.save(barber));
     }
 
-    public List<BarberResponseDTO> findBySpecialty(Specialty specialty) {
+    public List<BarberResponseDTO> findBySpecialty(Specialty specialty) throws MethodArgumentTypeMismatchException {
         return repository.findBySpecialty(specialty)
                 .stream()
                 .map(BarberResponseDTO::new)

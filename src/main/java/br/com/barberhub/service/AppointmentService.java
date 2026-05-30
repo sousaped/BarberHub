@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -72,6 +73,31 @@ public class AppointmentService {
         ServiceItem serviceItem = serviceItemRepository.findById(dto.serviceItemId())
                 .orElseThrow(() -> new NotFoundException("Service not found"));
 
+        List<Appointment> appointments = repository.findByBarberIdAndAvailableDateAndStatus(
+                dto.barberId(),
+                dto.availableDate(),
+                AppointmentStatus.SCHEDULED
+        );
+
+        for (Appointment existing : appointments) {
+            LocalTime existingStart = existing.getAvailableTime();
+            LocalTime existingEnd = existingStart.plusMinutes(
+                    existing.getServiceItem().getDurationInMinutes()
+            );
+
+            LocalTime newStart = dto.availableTime();
+
+            if (newStart.isBefore(existingEnd) && newStart.isAfter(existingStart.minusMinutes(1))) {
+                throw new BadRequestException(
+                        "Barber is not available. Next available time: " + existingEnd
+                );
+            }
+        }
+
+        if (!user.getActive()) {
+            throw new BadRequestException("This user is inactive");
+        }
+
         if (!barber.getActive()) {
             throw new BadRequestException("This barber is inactive");
         }
@@ -91,6 +117,7 @@ public class AppointmentService {
             throw new BadRequestException("User already has an appointment at this time");
         }
 
+
         Appointment appointment = new Appointment();
         appointment.setUser(user);
         appointment.setBarber(barber);
@@ -108,26 +135,14 @@ public class AppointmentService {
         Appointment appointment = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Appointment not found"));
 
-        if (appointment.getStatus() == AppointmentStatus.CANCELLED) {
-            throw new BadRequestException("Appointment is already cancelled");
-        }
-
-        if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
-            throw new BadRequestException("Appointment is already completed");
-        }
-
-        appointment.cancel();
-
-        repository.save(appointment);
-
-
+        repository.delete(appointment);
     }
 
     public void completeAppointment(Long id) {
         Appointment appointment = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Appointment not found"));
 
-        if(appointment.getStatus() == AppointmentStatus.COMPLETED) {
+        if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
             throw new BadRequestException("Appointment is already completed");
         }
 

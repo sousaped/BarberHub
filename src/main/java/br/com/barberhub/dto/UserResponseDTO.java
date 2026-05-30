@@ -12,6 +12,7 @@ public record UserResponseDTO(
         String email,
         String telephone,
         LocalDateTime lastChangeDate,
+        Boolean active,
         Role role
 ) {
     public UserResponseDTO(User user) {
@@ -21,6 +22,7 @@ public record UserResponseDTO(
                 user.getEmail(),
                 user.getTelephone(),
                 user.getLastChangeDate(),
+                user.getActive(),
                 user.getRole()
         );
     }

@@ -42,7 +42,7 @@ public class BarberController {
                     @ApiResponse(description = "OK", responseCode = "200")
             })
     @GetMapping("/specialty/{specialty}")
-    public ResponseEntity<List<BarberResponseDTO>> listBySpecialty(@PathVariable Specialty specialty) {
+    public ResponseEntity<List<BarberResponseDTO>> listBySpecialty(@PathVariable @Valid Specialty specialty) {
         return ResponseEntity.ok(service.findBySpecialty(specialty));
     }
 
@@ -64,8 +64,8 @@ public class BarberController {
                     @ApiResponse(description = "Bad Request", responseCode = "400")
             })
     @PostMapping("/create")
-    public ResponseEntity<BarberResponseDTO> createBarber(@RequestBody @Valid BarberRequestDTO dados, UriComponentsBuilder uriBuilder) {
-        var barber = service.createBarber(dados);
+    public ResponseEntity<BarberResponseDTO> createBarber(@RequestBody @Valid BarberRequestDTO dto, UriComponentsBuilder uriBuilder) {
+        var barber = service.createBarber(dto);
         var uri = uriBuilder.path("/{id}").buildAndExpand(barber.id()).toUri();
         return ResponseEntity.created(uri).body(barber);
     }

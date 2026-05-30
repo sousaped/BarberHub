@@ -43,7 +43,7 @@ public class UserService {
 
     }
 
-    public void assignRole(Long id,Role role){
+    public void assignRole(Long id, Role role) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found!!"));
 

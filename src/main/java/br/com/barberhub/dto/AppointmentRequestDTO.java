@@ -24,4 +24,5 @@ public record AppointmentRequestDTO(
         @NotNull(message = "Time is required")
         LocalTime availableTime
 
-) {}
+) {
+}

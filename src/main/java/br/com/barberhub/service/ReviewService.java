@@ -29,6 +29,14 @@ public class ReviewService {
     private final IAppointmentRepository appointmentRepository;
     private final IUserRepository userRepository;
 
+    public List<ReviewResponseDTO> findAllByBarber() {
+        return repository.findAll()
+                .stream()
+                .map(ReviewResponseDTO::new)
+                .toList();
+    }
+
+
     public List<ReviewResponseDTO> findByBarber(Long barberId) {
         return repository.findByBarberId(barberId)
                 .stream()
@@ -37,7 +45,7 @@ public class ReviewService {
 
     }
 
-    public ReviewResponseDTO createAssessment(ReviewRequestDTO dto) {
+    public ReviewResponseDTO createReview(ReviewRequestDTO dto) {
 
         User user = userRepository.findById(dto.userId())
                 .orElseThrow(() -> new NotFoundException("User not found"));
@@ -51,6 +59,11 @@ public class ReviewService {
                 AppointmentStatus.COMPLETED).isEmpty()) {
             throw new BadRequestException("User has no completed appointment with this barber");
         }
+
+        if (repository.findByUserIdAndBarberId(user.getId(), barber.getId()).isPresent()) {
+            throw new BadRequestException("User has already reviewed this barber");
+        }
+
 
         Review review = new Review();
         review.setBarber(barber);
@@ -66,7 +79,7 @@ public class ReviewService {
         return response;
     }
 
-    public void deleteAssessment(Long id) {
+    public void deleteReview(Long id) {
         Review review = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Review not found"));
 

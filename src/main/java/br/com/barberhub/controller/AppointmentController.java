@@ -80,7 +80,7 @@ public class AppointmentController {
                     @ApiResponse(description = "Not Found", responseCode = "404"),
                     @ApiResponse(description = "Bad Request", responseCode = "400")
             })
-    @PatchMapping("/{id}/cancel")
+    @DeleteMapping("/{id}/cancel")
     public ResponseEntity<Void> cancelAppointment(@PathVariable Long id) {
         service.cancelAppointment(id);
         return ResponseEntity.noContent().build();

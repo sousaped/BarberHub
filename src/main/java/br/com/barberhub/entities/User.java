@@ -54,6 +54,7 @@ public class User {
         this.email = dto.email();
         this.telephone = dto.telephone();
         this.password = dto.password();
+        this.active = getActive();
     }
 
 

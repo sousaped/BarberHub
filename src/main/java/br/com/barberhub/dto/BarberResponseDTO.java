@@ -13,7 +13,7 @@ public record BarberResponseDTO(
         Double rating
 ) {
 
-    public BarberResponseDTO(Barber barber){
+    public BarberResponseDTO(Barber barber) {
         this(
                 barber.getId(),
                 barber.getName(),

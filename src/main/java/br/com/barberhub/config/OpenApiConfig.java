@@ -12,14 +12,13 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI smartMenu(){
+    public OpenAPI smartMenu() {
         return new OpenAPI()
                 .info(
-                        new Info().title("Smart Menu API")
-                                .description("Projeto desenvolvido para entrega do Tech Challenge ")
+                        new Info().title("BarberHub API")
+                                .description("Projeto pessoal desenvolvido com o objetivo de consolidar, na prática, os conhecimentos adquiridos por meio dos cursos da plataforma Alura e da Pós-Graduação em Arquitetura de Desenvolvimento Java pela FIAP, com foco na aplicação de boas práticas, padrões de projeto e soluções voltadas ao desenvolvimento backend.  ")
                                 .version("v1.0.0")
                                 .license(new License().name("Version 1.0")
-                                        .url("https://github.com/higotaviano-commits/tech-challenge-fase-1"))
-                );
+                                ));
     }
 }
